@@ -20,13 +20,14 @@ func (c *SignedURLController) HandleSignedURL(w http.ResponseWriter, r *http.Req
 
 	clienteID := r.URL.Query().Get("clienteID")
 	bucketName := r.URL.Query().Get("bucket")
+	upload := r.URL.Query().Get("upload") == "true"
 
 	if clienteID == "" || bucketName == "" {
 		http.Error(w, `{"error":"bucket e clienteID são obrigatórios"}`, http.StatusBadRequest)
 		return
 	}
 
-	url, err := c.UseCase.Execute(r.Context(), bucketName, clienteID)
+	url, err := c.UseCase.Execute(r.Context(), bucketName, clienteID, upload)
 	if err != nil {
 		http.Error(w, fmt.Sprintf(`{"error":"erro ao gerar URL: %s"}`, err.Error()), http.StatusInternalServerError)
 		return

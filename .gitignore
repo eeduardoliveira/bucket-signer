@@ -1,0 +1,42 @@
+# Binários e executáveis
+/chatbot-service
+*.exe
+*.out
+*.test
+
+# Módulos e cache do Go
+/vendor/
+/bin/
+/pkg/
+*.mod
+*.sum
+
+# Configs locais
+.env
+.env.local
+*.log
+
+# VSCode
+.vscode/
+
+# Arquivos temporários de sistema
+.DS_Store
+Thumbs.db
+*.swp
+
+# Docker
+**/pg_data/
+*.pid
+
+# Arquivos do DBeaver ou IDEs
+*.iml
+.idea/
+*.db
+*.sql~backup
+
+# Arquivos gerados
+*.drawio.bkp
+*.dot
+*.drawio
+*.png
+*.pdf
