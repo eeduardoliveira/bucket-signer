@@ -18,6 +18,6 @@ func NewGenerateURLUseCase(presigner domain.Presigner) *GenerateURLUseCase {
 }
 
 // Execute executa o caso de uso para o bucket e cliente informado
-func (uc *GenerateURLUseCase) Execute(ctx context.Context, bucketName, clienteID string) (string, error) {
-	return uc.presigner.GeneratePresignedURL(ctx, bucketName, clienteID)
+func (uc *GenerateURLUseCase) Execute(ctx context.Context, bucketName, clienteID string, upload bool) (string, error) {
+	return uc.presigner.GeneratePresignedURL(ctx, bucketName, clienteID, upload)
 }

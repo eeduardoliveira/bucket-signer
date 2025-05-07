@@ -55,13 +55,24 @@ func NewS3Presigner() (*S3Presigner, error) {
 }
 
 // GeneratePresignedURL gera a URL assinada com base no clienteID
-func (p *S3Presigner) GeneratePresignedURL(ctx context.Context, bucketName, clienteID string) (string, error) {
+func (p *S3Presigner) GeneratePresignedURL(ctx context.Context, bucketName, clienteID string, upload bool) (string, error) {
 	clienteID = strings.TrimSpace(clienteID)
 	key := fmt.Sprintf(os.Getenv("PROMPT_FILE_PATTERN"), clienteID, clienteID)
 
 	fmt.Println("🔑 Nome final do objeto no bucket:", key)
 
 	presigner := s3.NewPresignClient(p.client)
+
+	if upload {
+		req, err := presigner.PresignPutObject(ctx, &s3.PutObjectInput{
+			Bucket: aws.String(bucketName),
+			Key:    aws.String(key),
+		}, s3.WithPresignExpires(p.expiration))
+		if err != nil {
+			return "", fmt.Errorf("erro ao gerar presigned URL PUT: %w", err)
+		}
+		return req.URL, nil
+	}
 
 	req, err := presigner.PresignGetObject(ctx, &s3.GetObjectInput{
 		Bucket: aws.String(bucketName),
