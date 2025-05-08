@@ -10,8 +10,6 @@ RUN go mod download
 
 COPY . .
 
-# Copia o .env para dentro do container
-COPY .env .env
 
 # Compila a aplicação para produção
 RUN go build -o bucket-signer ./main.go
@@ -24,4 +22,4 @@ WORKDIR /root/
 # Copia binário da etapa de build
 COPY --from=builder /app/bucket-signer .
 
-CMD ["go", "run", "main.go"]
+CMD ["./bucket-signer"] buc
