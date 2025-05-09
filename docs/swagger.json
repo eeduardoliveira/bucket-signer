@@ -1,0 +1,60 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para geração de URLs assinadas para acesso a arquivos no bucket.",
+        "title": "Bucket Signer Service",
+        "contact": {
+            "name": "SypherTech Team",
+            "email": "suporte@syphertech.com.br"
+        },
+        "version": "1.0"
+    },
+    "host": "bucket-signer.syphertech.com.br",
+    "basePath": "/",
+    "paths": {
+        "/signed-url": {
+            "get": {
+                "description": "Recebe chave e gera URL assinada temporária",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bucket"
+                ],
+                "summary": "Gera uma URL assinada para acesso ao bucket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Chave do arquivo no bucket",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -9,8 +9,19 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+
+	// Swagger docs
+	_ "bucket-signer/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title Bucket Signer Service
+// @version 1.0
+// @description API para geração de URLs assinadas para acesso a arquivos no bucket.
+// @contact.name SypherTech Team
+// @contact.email suporte@syphertech.com.br
+// @host bucket-signer.syphertech.com.br
+// @BasePath /
 func main() {
 	// Carrega variáveis de ambiente
 	if err := godotenv.Load(); err != nil {
@@ -33,6 +44,10 @@ func main() {
 
 	// Registra as rotas HTTP
 	httppresentation.RegisterRoutes(controller)
+
+	// Rota do Swagger
+	http.Handle("/swagger/", http.StripPrefix("/swagger/", http.FileServer(http.Dir("./docs"))))
+	http.HandleFunc("/swagger/index.html", httpSwagger.WrapHandler)
 
 	// Define porta
 	port := os.Getenv("PORT")

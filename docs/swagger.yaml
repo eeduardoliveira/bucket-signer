@@ -1,0 +1,40 @@
+basePath: /
+host: bucket-signer.syphertech.com.br
+info:
+  contact:
+    email: suporte@syphertech.com.br
+    name: SypherTech Team
+  description: API para geração de URLs assinadas para acesso a arquivos no bucket.
+  title: Bucket Signer Service
+  version: "1.0"
+paths:
+  /signed-url:
+    get:
+      consumes:
+      - application/json
+      description: Recebe chave e gera URL assinada temporária
+      parameters:
+      - description: Chave do arquivo no bucket
+        in: query
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Gera uma URL assinada para acesso ao bucket
+      tags:
+      - bucket
+swagger: "2.0"
