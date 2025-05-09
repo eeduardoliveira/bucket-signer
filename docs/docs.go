@@ -75,8 +75,6 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "API para geração de URLs assinadas para acesso a arquivos no bucket.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
 }
 
 func init() {
