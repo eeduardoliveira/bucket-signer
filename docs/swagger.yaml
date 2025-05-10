@@ -1,4 +1,15 @@
 basePath: /
+definitions:
+  http.errorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  http.signedURLResponse:
+    properties:
+      url:
+        type: string
+    type: object
 host: bucket-signer.syphertech.com.br
 info:
   contact:
@@ -12,28 +23,38 @@ paths:
     get:
       consumes:
       - application/json
-      description: Recebe chave e gera URL assinada temporária
+      description: Gera uma URL temporária para upload ou download de um arquivo no
+        bucket
       parameters:
-      - description: Chave do arquivo no bucket
+      - description: Nome do bucket
         in: query
-        name: key
+        name: bucket
         required: true
         type: string
+      - description: ID do cliente
+        in: query
+        name: clienteID
+        required: true
+        type: string
+      - description: Define se a URL será para upload (true) ou download (false)
+        in: query
+        name: upload
+        type: boolean
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/http.signedURLResponse'
         "400":
           description: Bad Request
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/http.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.errorResponse'
       summary: Gera uma URL assinada para acesso ao bucket
       tags:
       - bucket

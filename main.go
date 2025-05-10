@@ -46,8 +46,8 @@ func main() {
 	httppresentation.RegisterRoutes(controller)
 
 	// Rota do Swagger
-	http.HandleFunc("/swagger", httpSwagger.WrapHandler)
-
+	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
+		
 	// Define porta
 	port := os.Getenv("PORT")
 	if port == "" {

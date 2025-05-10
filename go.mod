@@ -2,7 +2,10 @@ module bucket-signer
 
 go 1.23.1
 
-require github.com/aws/aws-sdk-go-v2/config v1.29.13
+require (
+	github.com/aws/aws-sdk-go-v2/config v1.29.13
+	github.com/swaggo/swag v1.16.4
+)
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
@@ -17,16 +20,15 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
-	github.com/swaggo/swag v1.8.1 // indirect
-	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/tools v0.1.12 // indirect
+	golang.org/x/net v0.23.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/tools v0.7.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.36.3
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.66 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.66
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect

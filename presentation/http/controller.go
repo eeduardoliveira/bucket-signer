@@ -14,15 +14,22 @@ type SignedURLController struct {
 type signedURLResponse struct {
 	URL string `json:"url"`
 }
-// GetSignedURL godoc
+
+type errorResponse struct {
+	Error string `json:"error"`
+}
+// HandleSignedURL godoc
 // @Summary Gera uma URL assinada para acesso ao bucket
-// @Description Recebe chave e gera URL assinada temporária
+// @Description Gera uma URL temporária para upload ou download de um arquivo no bucket
 // @Tags bucket
 // @Accept json
 // @Produce json
-// @Param key query string true "Chave do arquivo no bucket"
-// @Success 200 {object} map[string]string
-// @Failure 400 {object} map[string]string
+// @Param bucket query string true "Nome do bucket"
+// @Param clienteID query string true "ID do cliente"
+// @Param upload query bool false "Define se a URL será para upload (true) ou download (false)"
+// @Success 200 {object} signedURLResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
 // @Router /signed-url [get]
 func (c *SignedURLController) HandleSignedURL(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
