@@ -20,7 +20,7 @@ const docTemplate = `{
     "paths": {
         "/signed-url": {
             "get": {
-                "description": "Recebe chave e gera URL assinada temporária",
+                "description": "Gera uma URL temporária para upload ou download de um arquivo no bucket",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,31 +34,62 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Chave do arquivo no bucket",
-                        "name": "key",
+                        "description": "Nome do bucket",
+                        "name": "bucket",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID do cliente",
+                        "name": "clienteID",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Define se a URL será para upload (true) ou download (false)",
+                        "name": "upload",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/http.signedURLResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "http.errorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.signedURLResponse": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
                 }
             }
         }
@@ -75,6 +106,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "API para geração de URLs assinadas para acesso a arquivos no bucket.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {
