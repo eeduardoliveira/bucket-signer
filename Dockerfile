@@ -1,5 +1,5 @@
 # Etapa 1: Build
-FROM golang:1.23-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
@@ -10,10 +10,10 @@ RUN go mod download
 COPY . .
 
 # Binário estático (CGO desligado) — roda em qualquer base, sem libc dinâmica
-RUN CGO_ENABLED=0 GOOS=linux go build -o bucket-signer .
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o bucket-signer .
 
 # Etapa 2: Execução
-FROM alpine:latest
+FROM alpine:3.22
 
 # Certificados raiz (necessários para chamadas HTTPS à AWS) + usuário não-root
 RUN apk add --no-cache ca-certificates && \
