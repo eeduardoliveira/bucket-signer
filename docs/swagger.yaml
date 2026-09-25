@@ -26,12 +26,12 @@ paths:
       description: Gera uma URL temporária para upload ou download de um arquivo no
         bucket
       parameters:
-      - description: Nome do bucket
+      - description: 'Nome do bucket (default: DEFAULT_BUCKET; restrito a ALLOWED_BUCKETS
+          se configurado)'
         in: query
         name: bucket
-        required: true
         type: string
-      - description: ID do cliente
+      - description: ID do cliente ([A-Za-z0-9._@-], sem '/' ou '..')
         in: query
         name: clienteID
         required: true
@@ -51,11 +51,26 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/http.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/http.errorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/http.errorResponse'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/http.errorResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Gera uma URL assinada para acesso ao bucket
       tags:
       - bucket
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-Key
+    type: apiKey
 swagger: "2.0"

@@ -14,6 +14,11 @@
     "paths": {
         "/signed-url": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Gera uma URL temporária para upload ou download de um arquivo no bucket",
                 "consumes": [
                     "application/json"
@@ -28,14 +33,13 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Nome do bucket",
+                        "description": "Nome do bucket (default: DEFAULT_BUCKET; restrito a ALLOWED_BUCKETS se configurado)",
                         "name": "bucket",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "ID do cliente",
+                        "description": "ID do cliente ([A-Za-z0-9._@-], sem '/' ou '..')",
                         "name": "clienteID",
                         "in": "query",
                         "required": true
@@ -56,6 +60,18 @@
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/http.errorResponse"
                         }
@@ -86,6 +102,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "X-API-Key",
+            "in": "header"
         }
     }
 }
